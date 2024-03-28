@@ -31,7 +31,6 @@ public:
 
 int main(){
 
-
     vector<FoodProduct> lunchProducts = {
         {"Rice", 25, 500, "Cereals", 7.5, 1.5, 73, 323},
         {"Bread", 10, 300, "Bakery products", 8.7, 1.2, 48.9, 242},

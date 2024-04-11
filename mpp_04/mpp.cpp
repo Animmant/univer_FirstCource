@@ -6,7 +6,7 @@ using namespace std;
 class Clock{
     public:
     Clock(int h = 0, int m = 0, int s = 0) : hour(h), minute(m), second(s) {}
-    void setAlarm(int h, int m, int s){
+    void setClock(int h, int m, int s){
         hour = h;
         minute = m;
         second = s;
@@ -26,6 +26,7 @@ class Clock{
 
 class AlarmClock : public Clock {
 public:
+        AlarmClock(int h = 0, int m = 0, int s = 0) : alarm_hour(h), alarm_minute(m), alarm_second(s) {}
 
 private:
     int alarm_hour, alarm_minute, alarm_second;
@@ -35,10 +36,24 @@ private:
 
 int main(){
 
-    Clock time_without_light(12, 35, 0);
-    string currentTime = time_without_light.getTime();
+    Clock time_without_light(1, 3, 0);
+    
+    cout << time_without_light.getTime() << endl;
     time_without_light.addSecond();
     cout << time_without_light.getTime() << endl;
+    time_without_light.setClock(2, 3, 59);
+    cout << time_without_light.getTime() << endl;
+    time_without_light.addSecond();
+    cout << time_without_light.getTime() << endl;
+
+
+    AlarmClock time_with_light(12, 5, 0);
+    cout << time_with_light.getTime() << endl;
+    time_with_light.addSecond();
+    cout << time_with_light.getTime() << endl;
+    time_with_light.setClock(2, 3, 0);
+    cout << time_with_light.getTime() << endl;
+
     return 0;
 }
 

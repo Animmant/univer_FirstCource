@@ -3,7 +3,7 @@
 
 using namespace std;
 
-class car{
+class clock{
     public:
     
     car(){
@@ -15,16 +15,6 @@ class car{
     
 };
 
-class client{
-    public:
-    client(){
-
-    }
-private:
-    string name,  adress, phone;
-};
-
 int main(){
-    car c1;
     return 0;
 }

@@ -59,6 +59,7 @@
   "CodeGPT.Autocomplete.enabled": true,
   "CodeGPT.apiKey": "OpenAI",
   "files.associations": {
-    "iostream": "cpp"
+    "iostream": "cpp",
+    "ostream": "cpp"
   }
 }

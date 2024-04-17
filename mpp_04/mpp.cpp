@@ -12,7 +12,18 @@ class Clock{
         second = s;
     }
     void addSecond(){
-        second += 1
+        second++;
+        if (second >= 60) {
+            second = 0;
+            minute++;
+            if (minute >= 60) {
+                minute = 0;
+                hour++;
+                if (hour >= 24) {
+                    hour = 0;
+                }
+            }
+        }
     }
 
 
@@ -32,17 +43,18 @@ public:
 private:
     int alarm_hour, alarm_minute, alarm_second;
     bool military_format;
+
 };
 
 
 int main(){
 
-    Clock time_without_light(1, 3, 0);
+    Clock time_without_light(1, 3, 59);
     
     cout << time_without_light.getTime() << endl;
     time_without_light.addSecond();
     cout << time_without_light.getTime() << endl;
-    time_without_light.setClock(2, 3, 59);
+    time_without_light.setClock(23, 59, 59);
     cout << time_without_light.getTime() << endl;
     time_without_light.addSecond();
     cout << time_without_light.getTime() << endl;

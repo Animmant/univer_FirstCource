@@ -12,8 +12,9 @@ class Clock{
         second = s;
     }
     void addSecond(){
-        second += 1;
+        second += 1
     }
+
 
     string getTime(){
         string time = to_string(hour) + ":" + to_string(minute) + ":" + to_string(second);
@@ -46,7 +47,7 @@ int main(){
     time_without_light.addSecond();
     cout << time_without_light.getTime() << endl;
 
-
+    cout << "\nalarm clock:" << endl;
     AlarmClock time_with_light(12, 5, 0);
     cout << time_with_light.getTime() << endl;
     time_with_light.addSecond();

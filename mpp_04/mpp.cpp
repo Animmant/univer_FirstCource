@@ -38,21 +38,24 @@ class Clock{
 
 class AlarmClock : public Clock {
     public:
-    AlarmClock(int h = 0, int m = 0, int s = 0, bool mil = true) : alarm_hour(h), alarm_minute(m), alarm_second(s), military_format_24(mil) {}
-/*
+
+    AlarmClock(int h = 0, int m = 0, int s = 0, int ah = 0, int am = 0, int as = 0, bool mil = true) 
+    : Clock(h, m, s), alarm_hour(ah), alarm_minute(am), alarm_second(as), military_format_24(mil) {}
+
+    void setAlarm(int ah, int am, int as) {
+        alarm_hour = ah;
+        alarm_minute = am;
+        alarm_second = as;
+    }
     void addSecond() {
         Clock::addSecond();
         if (military_format_24) {
             if (hour == alarm_hour && minute == alarm_minute && second == alarm_second) {
                 cout << "Wake up!" << endl;
             }}}
-    string getAlarmTime() {
-        ostringstream oss;
-        oss << setfill('0') << setw(2) << alarm_hour << ":" 
-            << setw(2) << alarm_minute << ":" << setw(2) << alarm_second;
-        return oss.str();
+    void setFormat(bool mil) {
+        military_format_24 = mil;
     }
-*/
    protected:
     int alarm_hour, alarm_minute, alarm_second;
     bool military_format_24 = 1;
@@ -60,28 +63,33 @@ class AlarmClock : public Clock {
 };
 
 
+
 int main(){
-
-    Clock time_without_light(1, 3, 59);
     
-    cout << time_without_light.getTime() << endl;
+    cout << "Clock without alarm:" << endl;
+    Clock time_without_light(1, 3, 59);
+    cout << time_without_light.getTime() << endl;  
     time_without_light.addSecond();
-    cout << time_without_light.getTime() << endl;
+    cout << time_without_light.getTime() << endl;  // After adding a second
     time_without_light.setClock(23, 59, 59);
-    cout << time_without_light.getTime() << endl;
+    cout << time_without_light.getTime() << endl;  // Set time to one second before midnight
     time_without_light.addSecond();
-    cout << time_without_light.getTime() << endl;
+    cout << time_without_light.getTime() << endl;  // Midnight
     time_without_light.addSecond();
-    cout << time_without_light.getTime() << endl;
+    cout << time_without_light.getTime() << endl;  // One second after midnight
 
-    cout << "\nalarm clock:" << endl;
+    cout << "\nAlarm Clock:" << endl;
     AlarmClock time_with_light(12, 5, 0);
-
-    cout << time_with_light.getTime() << endl;
+    time_with_light.setAlarm(12, 5, 1);  // Setting alarm time
+    cout << time_with_light.getTime() << endl;  // Initial time
     time_with_light.addSecond();
-    cout << time_with_light.getTime() << endl;
+    cout << time_with_light.getTime() << endl;  // After adding a second, should trigger alarm
     time_with_light.setClock(2, 3, 0);
-    cout << time_with_light.getTime() << endl;
-    return 0;
+    cout << time_with_light.getTime() << endl;  // New time set
+    time_with_light.setClock(23, 59, 59);
+    cout << time_with_light.getTime() << endl; 
+    time_with_light.addSecond(); // One second before
+    time_with_light.addSecond(); // Midnight
+    cout << time_with_light.getTime() << endl;  // One second after midnight
 }
 

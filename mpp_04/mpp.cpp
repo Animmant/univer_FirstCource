@@ -38,11 +38,11 @@ class Clock{
 
 class AlarmClock : public Clock {
 public:
-        AlarmClock(int h = 0, int m = 0, int s = 0) : alarm_hour(h), alarm_minute(m), alarm_second(s) {}
+    AlarmClock(int h = 0, int m = 0, int s = 0) : alarm_hour(h), alarm_minute(m), alarm_second(s) {}
 
 private:
     int alarm_hour, alarm_minute, alarm_second;
-    bool military_format;
+    bool military_format_24 = 1;
 
 };
 
@@ -59,9 +59,11 @@ int main(){
     time_without_light.addSecond();
     cout << time_without_light.getTime() << endl;
     time_without_light.addSecond();
+    cout << time_without_light.getTime() << endl;
 
     cout << "\nalarm clock:" << endl;
     AlarmClock time_with_light(12, 5, 0);
+
     cout << time_with_light.getTime() << endl;
     time_with_light.addSecond();
     cout << time_with_light.getTime() << endl;

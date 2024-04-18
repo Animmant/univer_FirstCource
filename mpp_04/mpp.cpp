@@ -58,6 +58,7 @@ int main(){
     cout << time_without_light.getTime() << endl;
     time_without_light.addSecond();
     cout << time_without_light.getTime() << endl;
+    time_without_light.addSecond();
 
     cout << "\nalarm clock:" << endl;
     AlarmClock time_with_light(12, 5, 0);

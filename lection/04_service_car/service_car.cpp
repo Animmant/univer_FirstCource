@@ -12,7 +12,7 @@ class car{
     private:
     string brand, model;
     int year;
-    
+    double price;
 };
 
 class client{

@@ -1,1 +1,6 @@
-AlarmClock(int h = 0, int m = 0, int s = 0) : alarm_hour(h), alarm_minute(m), alarm_second(s) {}
+    string getAlarmTime() {
+        ostringstream oss;
+        oss << setfill('0') << setw(2) << alarm_hour << ":" 
+            << setw(2) << alarm_minute << ":" << setw(2) << alarm_second;
+        return oss.str();
+    }

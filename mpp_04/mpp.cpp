@@ -37,10 +37,23 @@ class Clock{
 };
 
 class AlarmClock : public Clock {
-public:
-    AlarmClock(int h = 0, int m = 0, int s = 0) : alarm_hour(h), alarm_minute(m), alarm_second(s) {}
-
-private:
+    public:
+    AlarmClock(int h = 0, int m = 0, int s = 0, bool mil = true) : alarm_hour(h), alarm_minute(m), alarm_second(s), military_format_24(mil) {}
+/*
+    void addSecond() {
+        Clock::addSecond();
+        if (military_format_24) {
+            if (hour == alarm_hour && minute == alarm_minute && second == alarm_second) {
+                cout << "Wake up!" << endl;
+            }}}
+    string getAlarmTime() {
+        ostringstream oss;
+        oss << setfill('0') << setw(2) << alarm_hour << ":" 
+            << setw(2) << alarm_minute << ":" << setw(2) << alarm_second;
+        return oss.str();
+    }
+*/
+   protected:
     int alarm_hour, alarm_minute, alarm_second;
     bool military_format_24 = 1;
 
@@ -69,7 +82,6 @@ int main(){
     cout << time_with_light.getTime() << endl;
     time_with_light.setClock(2, 3, 0);
     cout << time_with_light.getTime() << endl;
-
     return 0;
 }
 

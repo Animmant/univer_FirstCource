@@ -47,12 +47,14 @@ class AlarmClock : public Clock {
         alarm_minute = am;
         alarm_second = as;
     }
+    
     void addSecond() {
         Clock::addSecond();
-        if (military_format_24) {
-            if (hour == alarm_hour && minute == alarm_minute && second == alarm_second) {
-                cout << "Wake up!" << endl;
-            }}}
+        if (hour == alarm_hour && minute == alarm_minute && second == alarm_second) {
+            cout << "Wake up!" << endl;
+        }
+    }
+     
     void setFormat(bool mil) {
         military_format_24 = mil;
     }

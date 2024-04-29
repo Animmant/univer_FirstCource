@@ -40,7 +40,7 @@ class AlarmClock : public Clock {
     public:
     AlarmClock(int h = 0, int m = 0, int s = 0, int ah = 0, int am = 0, int as = 0, bool mil = true) 
     : Clock(h, m, s), alarm_hour(ah), alarm_minute(am), alarm_second(as), military_format_24(mil) {
-        checkAlarm(); // Check alarm immediately after setting the initial time.
+        checkAlarm(); 
     }
 
     void checkAlarm() {
@@ -53,7 +53,7 @@ class AlarmClock : public Clock {
         alarm_hour = ah;
         alarm_minute = am;
         alarm_second = as;
-        checkAlarm(); // Check alarm immediately after setting the alarm.
+        checkAlarm(); 
     }
     
     void addSecond() {
@@ -65,16 +65,17 @@ class AlarmClock : public Clock {
         military_format_24 = mil;
     }
 
-    string getTime()  {
+    string getTime() {
         if (!military_format_24) {
-            int displayHour = hour % 12;
-            if (displayHour == 0) displayHour = 12;
+            int displayHour = hour % 12 == 0 ? 12 : hour % 12;
+            string h = (displayHour < 10) ? "0" + to_string(displayHour) : to_string(displayHour);
+            string m = (minute < 10) ? "0" + to_string(minute) : to_string(minute);
+            string s = (second < 10) ? "0" + to_string(second) : to_string(second);
             string suffix = (hour < 12) ? " AM" : " PM";
-            return (displayHour < 10 ? "0" + to_string(displayHour) : to_string(displayHour)) + ":" +
-                   (minute < 10 ? "0" + to_string(minute) : to_string(minute)) + ":" +
-                   (second < 10 ? "0" + to_string(second) : to_string(second)) + suffix;
+            return h + ":" + m + ":" + s + suffix;
+        } else {
+            return Clock::getTime();
         }
-        return Clock::getTime();
     }
 
    protected:
@@ -91,39 +92,43 @@ int main(){
     Clock simple_Clock(1, 3, 59);
     cout << simple_Clock.getTime() << endl;  
     simple_Clock.addSecond();
-    cout << simple_Clock.getTime() << endl;  // After adding a second
+    cout << simple_Clock.getTime() << endl;  
     simple_Clock.setClock(23, 59, 59);
-    cout << simple_Clock.getTime() << endl;  // Set time to one second before midnight
+    cout << simple_Clock.getTime() << endl;  
     simple_Clock.addSecond();
-    cout << simple_Clock.getTime() << endl;  // Midnight
+    cout << simple_Clock.getTime() << endl;  
     simple_Clock.addSecond();
-    cout << simple_Clock.getTime() << endl;  // One second after midnight
+    cout << simple_Clock.getTime() << endl;  
 
     cout << "\nAlarm Clock:" << endl;
-    AlarmClock simple_alarmClock(12, 5, 0);
-    simple_alarmClock.setAlarm(12, 5, 1);  // Setting alarm time
-    cout << simple_alarmClock.getTime() << endl;  // Initial time
+    AlarmClock simple_alarmClock(12, 5, 0, 0 , 0);
+    simple_alarmClock.setAlarm(12, 5, 1);  
+    cout << simple_alarmClock.getTime() << endl;  
     simple_alarmClock.addSecond();
-    cout << simple_alarmClock.getTime() << endl;  // After adding a second, should trigger alarm
+    cout << simple_alarmClock.getTime() << endl;  
     simple_alarmClock.setClock(2, 3, 0);
-    cout << simple_alarmClock.getTime() << endl;  // New time set
+    cout << simple_alarmClock.getTime() << endl;  
     simple_alarmClock.setClock(23, 59, 59);
     cout << simple_alarmClock.getTime() << endl; 
-    simple_alarmClock.addSecond(); // One second before
-    cout << simple_alarmClock.getTime() << endl;  // One second after midnight
+    simple_alarmClock.addSecond(); 
+    cout << simple_alarmClock.getTime() << endl;  
 
     cout << "Clock without alarm:" << endl;
     simple_alarmClock.setFormat(0);
     cout << simple_Clock.getTime() << endl;  
     simple_Clock.addSecond();
-    cout << simple_Clock.getTime() << endl;  // After adding a second
+    cout << simple_Clock.getTime() << endl;  
     simple_Clock.setClock(23, 59, 59);
-    cout << simple_Clock.getTime() << endl;  // Set time to one second before midnight
+    cout << simple_Clock.getTime() << endl;  
     simple_Clock.addSecond();
-    cout << simple_Clock.getTime() << endl;  // Midnight
+    cout << simple_Clock.getTime() << endl;  
     simple_Clock.addSecond();
-    cout << simple_Clock.getTime() << endl;  // One second after midnight
+    cout << simple_Clock.getTime() << endl;  
 
-
+    AlarmClock simpleAlarmClock(11, 59, 58);
+    simpleAlarmClock.setAlarm(12, 0, 0);  
+    for (int i = 0; i < 5; i++) {
+        cout << simpleAlarmClock.getTime() << endl;  
+        simpleAlarmClock.addSecond();  
+    }
 }
-

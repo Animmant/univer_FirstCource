@@ -69,29 +69,29 @@ class AlarmClock : public Clock {
 int main(){
     
     cout << "Clock without alarm:" << endl;
-    Clock time_without_light(1, 3, 59);
-    cout << time_without_light.getTime() << endl;  
-    time_without_light.addSecond();
-    cout << time_without_light.getTime() << endl;  // After adding a second
-    time_without_light.setClock(23, 59, 59);
-    cout << time_without_light.getTime() << endl;  // Set time to one second before midnight
-    time_without_light.addSecond();
-    cout << time_without_light.getTime() << endl;  // Midnight
-    time_without_light.addSecond();
-    cout << time_without_light.getTime() << endl;  // One second after midnight
+    Clock simple_Clock(1, 3, 59);
+    cout << simple_Clock.getTime() << endl;  
+    simple_Clock.addSecond();
+    cout << simple_Clock.getTime() << endl;  // After adding a second
+    simple_Clock.setClock(23, 59, 59);
+    cout << simple_Clock.getTime() << endl;  // Set time to one second before midnight
+    simple_Clock.addSecond();
+    cout << simple_Clock.getTime() << endl;  // Midnight
+    simple_Clock.addSecond();
+    cout << simple_Clock.getTime() << endl;  // One second after midnight
 
     cout << "\nAlarm Clock:" << endl;
-    AlarmClock time_with_light(12, 5, 0);
-    time_with_light.setAlarm(12, 5, 1);  // Setting alarm time
-    cout << time_with_light.getTime() << endl;  // Initial time
-    time_with_light.addSecond();
-    cout << time_with_light.getTime() << endl;  // After adding a second, should trigger alarm
-    time_with_light.setClock(2, 3, 0);
-    cout << time_with_light.getTime() << endl;  // New time set
-    time_with_light.setClock(23, 59, 59);
-    cout << time_with_light.getTime() << endl; 
-    time_with_light.addSecond(); // One second before
-    time_with_light.addSecond(); // Midnight
-    cout << time_with_light.getTime() << endl;  // One second after midnight
+    AlarmClock simple_alarmClock(12, 5, 0);
+    simple_alarmClock.setAlarm(12, 5, 1);  // Setting alarm time
+    cout << simple_alarmClock.getTime() << endl;  // Initial time
+    simple_alarmClock.addSecond();
+    cout << simple_alarmClock.getTime() << endl;  // After adding a second, should trigger alarm
+    simple_alarmClock.setClock(2, 3, 0);
+    cout << simple_alarmClock.getTime() << endl;  // New time set
+    simple_alarmClock.setClock(23, 59, 59);
+    cout << simple_alarmClock.getTime() << endl; 
+    simple_alarmClock.addSecond(); // One second before
+    simple_alarmClock.addSecond(); // Midnight
+    cout << simple_alarmClock.getTime() << endl;  // One second after midnight
 }
 

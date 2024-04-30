@@ -73,10 +73,7 @@ class AlarmClock : public Clock {
         if (!military_format_24) {
             int displayHour = hour % 12;
             string suffix = (hour < 12) ? " AM" : " PM";
-            string h = (displayHour < 10) ? "0" + to_string(displayHour) : to_string(displayHour);
-            string m = (minute < 10) ? "0" + to_string(minute) : to_string(minute);
-            string s = (second < 10) ? "0" + to_string(second) : to_string(second);
-            return h + ":" + m + ":" + s + suffix;
+            return formatTimeComponent(displayHour) + ":" + formatTimeComponent(minute) + ":" + formatTimeComponent(second) + suffix;
         } else {
             return Clock::getTime();
         }

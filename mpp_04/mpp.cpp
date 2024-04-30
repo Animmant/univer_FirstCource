@@ -45,7 +45,8 @@ class AlarmClock : public Clock {
 
     void checkAlarm() {
         if (hour == alarm_hour && minute == alarm_minute && second == alarm_second) {
-            cout << "Wake up!" << endl;
+            cout << "Wake up! " << "Current time: "<< getTime() << endl;
+
         }
     }
 
@@ -125,8 +126,11 @@ int main(){
     simple_Clock.addSecond();
     cout << simple_Clock.getTime() << endl;  
 
+    cout << "alarm Clock witho alarm:" << endl;
     AlarmClock simpleAlarmClock(11, 59, 58);
-    simpleAlarmClock.setAlarm(12, 0, 0);  
+    cout << simpleAlarmClock.getTime() << endl;  
+    cout << "go " << endl;
+    simpleAlarmClock.setAlarm(12, 0, 1);  
     for (int i = 0; i < 5; i++) {
         cout << simpleAlarmClock.getTime() << endl;  
         simpleAlarmClock.addSecond();  

@@ -68,7 +68,7 @@ class AlarmClock : public Clock {
 
     string getTime() {
         if (!military_format_24) {
-            int displayHour = hour % 12 == 0 ? 12 : hour % 12;
+            int displayHour = (hour < 12) ? hour : hour % 12;
             string h = (displayHour < 10) ? "0" + to_string(displayHour) : to_string(displayHour);
             string m = (minute < 10) ? "0" + to_string(minute) : to_string(minute);
             string s = (second < 10) ? "0" + to_string(second) : to_string(second);
@@ -78,6 +78,7 @@ class AlarmClock : public Clock {
             return Clock::getTime();
         }
     }
+
 
    protected:
     int alarm_hour, alarm_minute, alarm_second;
@@ -101,38 +102,21 @@ int main(){
     simple_Clock.addSecond();
     cout << simple_Clock.getTime() << endl;  
 
-    cout << "\nAlarm Clock:" << endl;
-    AlarmClock simple_alarmClock(12, 5, 0, 0 , 0);
-    simple_alarmClock.setAlarm(12, 5, 1);  
-    cout << simple_alarmClock.getTime() << endl;  
-    simple_alarmClock.addSecond();
-    cout << simple_alarmClock.getTime() << endl;  
-    simple_alarmClock.setClock(2, 3, 0);
-    cout << simple_alarmClock.getTime() << endl;  
-    simple_alarmClock.setClock(23, 59, 59);
-    cout << simple_alarmClock.getTime() << endl; 
-    simple_alarmClock.addSecond(); 
-    cout << simple_alarmClock.getTime() << endl;  
 
-    cout << "Clock without alarm:" << endl;
-    simple_alarmClock.setFormat(0);
-    cout << simple_Clock.getTime() << endl;  
-    simple_Clock.addSecond();
-    cout << simple_Clock.getTime() << endl;  
-    simple_Clock.setClock(23, 59, 59);
-    cout << simple_Clock.getTime() << endl;  
-    simple_Clock.addSecond();
-    cout << simple_Clock.getTime() << endl;  
-    simple_Clock.addSecond();
-    cout << simple_Clock.getTime() << endl;  
 
-    cout << "alarm Clock witho alarm:" << endl;
+    cout << "\nAlarm Clock with set alarm:" << endl;
     AlarmClock simpleAlarmClock(11, 59, 58);
-    cout << simpleAlarmClock.getTime() << endl;  
-    cout << "go " << endl;
+    simpleAlarmClock.setFormat(0);
     simpleAlarmClock.setAlarm(12, 0, 1);  
     for (int i = 0; i < 5; i++) {
         cout << simpleAlarmClock.getTime() << endl;  
         simpleAlarmClock.addSecond();  
+    }
+
+    cout << "\nAlarm Clock:" << endl;
+    AlarmClock simple_alarmClock(12, 5, 10, 12 , 5, 11);
+    for (int i = 0; i < 5; i++) {
+        cout << simple_alarmClock.getTime() << endl;  
+        simple_alarmClock.addSecond();  
     }
 }

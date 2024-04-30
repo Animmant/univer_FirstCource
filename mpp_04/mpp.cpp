@@ -28,11 +28,14 @@ class Clock{
 
 
     string getTime(){
-        string time = to_string(hour) + ":" + to_string(minute) + ":" + to_string(second);
-        return time;
+       return formatTimeComponent(hour) + ":" + formatTimeComponent(minute) + ":" + formatTimeComponent(second);
     }
     protected:
     int hour, minute, second;
+
+     string formatTimeComponent(int timeComponent) {
+        return (timeComponent < 10 ? "0" : "") + to_string(timeComponent);
+    }
     
 };
 
@@ -45,7 +48,7 @@ class AlarmClock : public Clock {
 
     void checkAlarm() {
         if (hour == alarm_hour && minute == alarm_minute && second == alarm_second) {
-            cout << "Wake up! " << "Current time: "<< getTime() << endl;
+            cout << "Wake up! Current time: "<< getTime() << endl;
 
         }
     }
@@ -68,11 +71,11 @@ class AlarmClock : public Clock {
 
     string getTime() {
         if (!military_format_24) {
-            int displayHour = (hour < 12) ? hour : hour % 12;
+            int displayHour = hour % 12;
+            string suffix = (hour < 12) ? " AM" : " PM";
             string h = (displayHour < 10) ? "0" + to_string(displayHour) : to_string(displayHour);
             string m = (minute < 10) ? "0" + to_string(minute) : to_string(minute);
             string s = (second < 10) ? "0" + to_string(second) : to_string(second);
-            string suffix = (hour < 12) ? " AM" : " PM";
             return h + ":" + m + ":" + s + suffix;
         } else {
             return Clock::getTime();

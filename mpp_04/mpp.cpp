@@ -28,13 +28,13 @@ class Clock{
 
 
     string getTime(){
-       return formatTimeComponent(hour) + ":" + formatTimeComponent(minute) + ":" + formatTimeComponent(second);
+       return formatTimeElem(hour) + ":" + formatTimeElem(minute) + ":" + formatTimeElem(second);
     }
     protected:
     int hour, minute, second;
 
-     string formatTimeComponent(int timeComponent) {
-        return (timeComponent < 10 ? "0" : "") + to_string(timeComponent);
+     string formatTimeElem(int timeElem) {
+        return (timeElem < 10 ? "0" : "") + to_string(timeElem);
     }
     
 };
@@ -73,7 +73,7 @@ class AlarmClock : public Clock {
         if (!military_format_24) {
             int displayHour = hour % 12;
             string suffix = (hour < 12) ? " AM" : " PM";
-            return formatTimeComponent(displayHour) + ":" + formatTimeComponent(minute) + ":" + formatTimeComponent(second) + suffix;
+            return formatTimeElem(displayHour) + ":" + formatTimeElem(minute) + ":" + formatTimeElem(second) + suffix;
         } else {
             return Clock::getTime();
         }

@@ -1,5 +1,5 @@
-#include <iostream>
-#include <string>
+#include<iostream>
+#include<string>
 
 using namespace std;
 
@@ -36,5 +36,5 @@ Cat(const string& name) : Animal(name) {}
 
 int main(){
 Dog myDog("Buddy");myDog.voice(); myDog.walk();
-    Cat myCat("Whiskers");myCat.voice();  myCat.hunt(); myCat.sound(); 
+    Cat myCat("Whiskers");myCat.voice();  myCat.hunt(); myCat.sound();
 }

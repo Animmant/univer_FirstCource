@@ -60,6 +60,7 @@
   "CodeGPT.apiKey": "OpenAI",
   "files.associations": {
     "iostream": "cpp",
-    "ostream": "cpp"
+    "ostream": "cpp",
+    "string": "cpp"
   }
 }

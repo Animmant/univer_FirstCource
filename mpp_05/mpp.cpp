@@ -7,7 +7,7 @@ class Animal{
 public:
     Animal(const string& name) : name(name) {}
     virtual void sound() const {
-        cout << "I am an animal" << endl;
+        cout << "I am an" << name << endl;
     }
 protected:
 string name;
@@ -35,8 +35,6 @@ Cat(const string& name) : Animal(name) {}
 };
 
 int main(){
-Dog myDog("Buddy");
-    myDog.voice(); myDog.walk();
-    Cat myCat("Whiskers");
-    myCat.voice();  myCat.hunt();  
+Dog myDog("Buddy");myDog.voice(); myDog.walk();
+    Cat myCat("Whiskers");myCat.voice();  myCat.hunt(); myCat.sound(); 
 }

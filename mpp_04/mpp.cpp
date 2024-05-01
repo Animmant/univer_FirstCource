@@ -34,7 +34,7 @@ class Clock{
     int hour, minute, second;
 
      string formatTimeElem(int timeElem) {
-        return (timeElem < 10 ? "0" : "") + to_string(timeElem);
+        return (timeElem < 10 ? "0" : "") + to_string(timeElem); // add leading zero if needed
     }
     
 };

@@ -11,25 +11,6 @@ class Clock{
         minute = m;
         second = s;
     }
-    void addSecond(){
-        second++; 
-        if (second >= 60) {
-            second = 0;
-            minute++;
-            if (minute >= 60) {
-                minute = 0;
-                hour++;
-                if (hour >= 24) {
-                    hour = 0;
-                }
-            }
-        }
-    }
-
-
-    string getTime(){
-       return formatTimeElem(hour) + ":" + formatTimeElem(minute) + ":" + formatTimeElem(second);
-    }
     protected:
     int hour, minute, second;
 
@@ -60,10 +41,6 @@ class AlarmClock : public Clock {
         checkAlarm(); 
     }
     
-    void addSecond() {
-        Clock::addSecond();
-        checkAlarm();
-    }
      
     void setFormat(bool mil) {
         military_format_24 = mil;

@@ -9,16 +9,20 @@ public:
     Lesson(int number, const string& subject, const string& teacher, const string& form)
         : number(number), subject(subject), teacher(teacher), form(form) {}
 
-    void print() const {
+    virtual void print() const {
         cout << "Lesson Number: " << number << ", Subject: " << subject
              << ", Teacher: " << teacher << ", Form: " << form << endl;
     }
 
+    int getNumber() const {
+        return number;
+    }
+
 protected:
-    int number;        // Номер пари
-    string subject;    // Предмет
-    string teacher;    // Прізвище викладача
-    string form;       // Форма заняття
+    int number;
+    string subject;
+    string teacher;
+    string form;
 };
 
 class SpecializedLesson : public Lesson {
@@ -27,14 +31,14 @@ public:
                       const string& room, int duration)
         : Lesson(number, subject, teacher, form), room(room), duration(duration) {}
 
-    void print() const {
-        Lesson::print(); // Викликаємо метод базового класу
+    void print() const override {
+        Lesson::print();
         cout << "Room: " << room << ", Duration: " << duration << " minutes" << endl;
     }
 
 private:
-    string room;      // Додаткове поле: кімната
-    int duration;     // Додаткове поле: тривалість заняття
+    string room;
+    int duration;
 };
 
 class Schedule {
@@ -45,6 +49,24 @@ public:
 
     void addSpecializedLesson(const SpecializedLesson& lesson) {
         specializedLessons.push_back(lesson);
+    }
+
+    void removeLesson(int number) {
+        for (size_t i = 0; i < lessons.size(); ++i) {
+            if (lessons[i].getNumber() == number) {
+                lessons.erase(lessons.begin() + i);
+                return;
+            }
+        }
+    }
+
+    void removeSpecializedLesson(int number) {
+        for (size_t i = 0; i < specializedLessons.size(); ++i) {
+            if (specializedLessons[i].getNumber() == number) {
+                specializedLessons.erase(specializedLessons.begin() + i);
+                return;
+            }
+        }
     }
 
     void print() const {
@@ -59,8 +81,8 @@ public:
     }
 
 private:
-    vector<Lesson> lessons;                 // Вектор звичайних занять
-    vector<SpecializedLesson> specializedLessons; // Вектор спеціалізованих занять
+    vector<Lesson> lessons;
+    vector<SpecializedLesson> specializedLessons;
 };
 
 int main() {
@@ -68,10 +90,16 @@ int main() {
 
     Lesson lesson1(1, "Mathematics", "Mr. Smith", "Lecture");
     SpecializedLesson lesson2(2, "Physics", "Dr. Brown", "Lab", "Room 101", 90);
+    SpecializedLesson lesson3(3, "Chemistry", "Mrs. White", "Lab", "Room 102", 90);
 
     weekSchedule.addLesson(lesson1);
     weekSchedule.addSpecializedLesson(lesson2);
+    weekSchedule.addSpecializedLesson(lesson3);
 
+    weekSchedule.print();
+
+    cout << "\nRemoving lesson 2:\n";
+    weekSchedule.removeSpecializedLesson(2);
     weekSchedule.print();
 
     return 0;

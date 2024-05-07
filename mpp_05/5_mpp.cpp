@@ -4,16 +4,19 @@
 
 using namespace std;
 
-class timeTable{
+class Lesson{
 protected:
-    string day;
-    public:
-    timeTable(string day){
-        this->day = day;
+    int number;       
+    string subject;    
+    string teacher;    
+    string form; 
+public:
+    Lesson(int number, string subject, string teacher, string form){
+        this->number = number;
+        this->subject = subject;
+        this->teacher = teacher;
+        this->form = form;
     }
-    virtual void display() = 0;
-    virtual void setAlarm() = 0;
-    virtual void removeAlarm() = 0;
 };
 
 class programistTimeTable_programist : public timeTable{

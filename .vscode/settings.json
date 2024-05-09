@@ -62,6 +62,9 @@
     "iostream": "cpp",
     "ostream": "cpp",
     "string": "cpp",
-    "typeinfo": "cpp"
+    "typeinfo": "cpp",
+    "initializer_list": "cpp",
+    "deque": "cpp",
+    "vector": "cpp"
   }
 }

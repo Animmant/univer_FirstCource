@@ -15,9 +15,9 @@ public:
              << ", Teacher: " << teacher << ", Form: " << form << endl;
     }
 
-    int getNumber() const {
-        return number;
-    }
+    virtual ~Lesson() {}
+
+    int getNumber() const { return number; }
 
 protected:
     int number;
@@ -43,89 +43,65 @@ private:
 
 class Schedule {
 public:
-    void addLesson(const string& day, Lesson* lesson) {
-        schedule[day].push_back(lesson);
-    }
-
-    void addLessons(const string& day, const vector<Lesson*>& lessons) {
-        for (const auto& lesson : lessons) {
-            schedule[day].push_back(lesson);
+    ~Schedule() {
+        for (auto lesson : lessons) {
+            delete lesson;
         }
     }
 
-    void removeLesson(const string& day, int number) {
-        auto& lessons = schedule[day];
-        for (size_t i = 0; i < lessons.size(); ++i) {
-            if (lessons[i]->getNumber() == number) {
-                delete lessons[i];
-                lessons.erase(lessons.begin() + i);
-                break;
-            }
-        }
+    void addLesson(Lesson* lesson) {
+        lessons.push_back(lesson);
     }
 
     void print() const {
-        const string daysOrder[] = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
-
-        for (const string& day : daysOrder) {
-            auto it = schedule.find(day);
-            if (it != schedule.end()) {
-                cout << day << ":" << endl;
-                for (const auto& lesson : it->second) {
-                    lesson->print();
-                    cout << endl;
-                }
-            }
+        for (const auto& lesson : lessons) {
+            lesson->print();
+            cout << endl;
         }
     }
 
-    ~Schedule() {   
-        for (auto& entry : schedule) {
-            for (auto& lesson : entry.second) {
-                delete lesson;
+    void removeLesson(int number) {
+        for (auto it = lessons.begin(); it != lessons.end(); ++it) {
+            if ((*it)->getNumber() == number) {
+                delete *it;
+                lessons.erase(it);
+                return;
             }
         }
     }
 
 private:
-    map<string, vector<Lesson*>> schedule;
+    vector<Lesson*> lessons;
 };
 
+map<string, Schedule> weekSchedule;
+
+void initializeWeekSchedule() {
+    weekSchedule["Monday"].addLesson(new Lesson(1, "Mathematics", "Mr. Smith", "Lecture"));
+    weekSchedule["Monday"].addLesson(new Lesson(2, "Biology", "Ms. Green", "Lab"));
+    weekSchedule["Tuesday"].addLesson(new Lesson(3, "History", "Mr. Brown", "Lecture"));
+    weekSchedule["Wednesday"].addLesson(new Lesson(4, "Geography", "Ms. White", "Lecture"));
+    weekSchedule["Thursday"].addLesson(new SpecializedLesson(5, "Physics", "Dr. Brown", "Lab", "Room 101", 90));
+    weekSchedule["Friday"].addLesson(new SpecializedLesson(6, "Chemistry", "Mrs. White", "Lab", "Room 102", 90));
+}
+
 int main() {
-    Schedule weekSchedule;
+    initializeWeekSchedule();
 
-    weekSchedule.addLessons("Monday", {
-        new Lesson(1, "Mathematics", "Mr. Smith", "Lecture"),
-        new Lesson(2, "Biology", "Ms. Green", "Lab"),
-        new Lesson(3, "Physics", "Mr. Johnson", "Lecture"),
-        new Lesson(4, "Chemistry", "Dr. Brown", "Lecture"),
-        new Lesson(5, "English", "Ms. White", "Lecture")
-    });
+    cout << "Weekly Schedule:" << endl;
+    for (const auto& pair : weekSchedule) {
+        cout << pair.first << ":" << endl;
+        pair.second.print();
+    }
 
-    weekSchedule.addLessons("Tuesday", {
-        new Lesson(2, "History", "Mr. Black", "Lecture"),
-        new Lesson(3, "Computer Science", "Ms. Blue", "Lab")
-    });
+    weekSchedule["Monday"].addLesson(new Lesson(7, "English", "Mrs. Green", "Lecture"));
+    weekSchedule["Tuesday"].removeLesson(3);
 
-
-    weekSchedule.addLessons("Wednesday", {
-        new Lesson(1, "Mathematics", "Mr. Smith", "Lecture"),
-        new Lesson(2, "Biology", "Ms. Green", "Lab"),
-        new Lesson(3, "Physics", "Mr. Johnson", "Lecture"),
-        new Lesson(4, "Chemistry", "Dr. Brown", "Lecture"),
-        new Lesson(5, "English", "Ms. White", "Lecture"),
-        new Lesson(8, "History", "Mr. Carter", "Lecture")
-    });
-    weekSchedule.addLesson("Thursday", new SpecializedLesson(2, "Physics", "Dr. Brown", "Lab", "Room 101", 90));
-    weekSchedule.addLesson("Friday", new SpecializedLesson(1, "Chemistry", "Mrs. White", "Lab", "Room 102", 90));
-
-    cout << "Initial schedule:" << endl;
-    weekSchedule.print();
-
-    cout << "Removing Wednesday's lesson (8):" << endl;
-    weekSchedule.removeLesson("Wednesday", 8);
-
-    weekSchedule.print();
+    cout << endl << "Updated Weekly Schedule:" << endl;
+    for (const auto& pair : weekSchedule) {
+        cout << pair.first << ":" << endl;
+        pair.second.print();
+    }
 
     return 0;
 }

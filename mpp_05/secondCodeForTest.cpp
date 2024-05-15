@@ -12,10 +12,15 @@ public:
     void setTitle(const string& title) {
         this->title = title;
     }
+    
     void setAuthor(const string& author) {
         this->author = author;
     }
     void setYear(const int& year) {
+        this->year = year;
+    }
+
+    void setYear(const double& year) {
         this->year = year;
     }
 
@@ -115,6 +120,7 @@ int main(){
     Book history("The Count of Monte Cristo", "Alexandre Dumas", 1844);
     cout << history.getTitle() << endl;
     cout << history.getAuthor() << endl;
+    cout << history.setYear(1885.3) << endl;
     cout << history.getYear() << endl;
 
     history.setTitle("The Three Musketeers");

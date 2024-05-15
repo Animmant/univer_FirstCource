@@ -41,14 +41,7 @@ private:
 
 class Schedule {
 public:
-/*
-    void addLesson(const vector<Lesson*>& lessons) {
-        for (const auto& lesson : lessons) {
-        lessons.push_back(lesson);
-        }
-    }
-*/
-
+    Schedule(const vector<Lesson>& initialLessons) : lessons(initialLessons) {}
 
     void addLesson(const Lesson& lesson) {
         lessons.push_back(lesson);
@@ -72,6 +65,8 @@ public:
         }
     }
 
+
+
 private:
     vector<Lesson> lessons;
 };
@@ -92,7 +87,10 @@ void initializeWeekSchedule() {
 }
 
 
+
+
 /*
+
 void initializeWeekSchedule() {    weekSchedule["Monday"].addLessons({
         Lesson(1, "Mathematics", "Mr. Smith", "Lecture"),
         Lesson(2, "Biology", "Ms. Green", "Lab")

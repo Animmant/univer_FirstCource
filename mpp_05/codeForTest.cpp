@@ -21,6 +21,9 @@ Dog(const string& name) : Animal(name) {}
     void walk() {
         cout << "The dog is going for a walk" << endl;
     }
+    void walk() {
+        cout << "The dog is going for a walk" << endl;
+    }
 };
 
 class Cat : public Animal {

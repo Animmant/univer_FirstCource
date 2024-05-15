@@ -1,6 +1,7 @@
 #include <iostream>
-#include <string>
 #include <vector>
+#include <map>
+#include <string>
 
 using namespace std;
 
@@ -11,27 +12,17 @@ protected:
     string teacher;    
     string form; 
 public:
-    Lesson(int number, string subject, string teacher, string form){
-        this->number = number;
-        this->subject = subject;
-        this->teacher = teacher;
-        this->form = form;
-    }
+    Lesson(int number, string subject, string teacher, string form)
+        : number(number), subject(subject), teacher(teacher), form(form) {}
 };
 
-class programistTimeTable_programist : public timeTable{
-    private:
-    string alarm;
-    public:
-    programistTimeTable(string day, string alarm) : timeTable(day){
-        this->alarm = alarm;
-    }}
+class 
 
 };
 int main(){
     
-    cout << "timeTable without alarm:" << endl;
-    vector;
+    const Lesson math(1, "Math", "Mr. Smith", "10A");
+    cout << math << endl;
 
 
 

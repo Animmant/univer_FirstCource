@@ -72,40 +72,40 @@ private:
 map<string, Schedule> weekSchedule;
 
 void initializeWeekSchedule() {
-    weekSchedule["Monday"] = Schedule{
+    weekSchedule["Monday"] = Schedule({
         Lesson(1, "Mathematics", "Dr. Smith", "Lecture"),
         Lesson(2, "Physics", "Dr. Brown", "Lab"),
         Lesson(3, "Chemistry", "Dr. White", "Lecture"),
         Lesson(4, "History", "Mr. Black", "Seminar")
-    };
+    });
 
-    weekSchedule["Tuesday"] = Schedule{
+    weekSchedule["Tuesday"] = Schedule({
         Lesson(1, "Biology", "Dr. Green", "Lecture"),
         Lesson(2, "Computer Science", "Dr. Blue", "Lab"),
         Lesson(3, "Physical Education", "Coach Red", "Exercise"),
         Lesson(4, "Art", "Ms. Yellow", "Workshop")
-    };
+    });
 
-    weekSchedule["Wednesday"] = Schedule{
+    weekSchedule["Wednesday"] = Schedule({
         Lesson(1, "English", "Ms. Violet", "Lecture"),
         Lesson(2, "Economics", "Dr. Indigo", "Lecture"),
         Lesson(3, "Philosophy", "Dr. Grey", "Seminar"),
         Lesson(4, "Music", "Mr. Pink", "Workshop")
-    };
+    });
 
-    weekSchedule["Thursday"] = Schedule{
+    weekSchedule["Thursday"] = Schedule({
         Lesson(1, "Geography", "Dr. Orange", "Lecture"),
         Lesson(2, "Literature", "Ms. Purple", "Seminar"),
         Lesson(3, "Sociology", "Dr. Gold", "Lecture"),
         Lesson(4, "Drama", "Ms. Silver", "Workshop")
-    };
+    });
 
-    weekSchedule["Friday"] = Schedule{
+    weekSchedule["Friday"] = Schedule({
         Lesson(1, "Statistics", "Dr. White", "Lecture"),
         Lesson(2, "Programming", "Dr. Black", "Lab"),
         Lesson(3, "Robotics", "Dr. Brown", "Lab"),
         Lesson(4, "Health", "Dr. Green", "Seminar")
-    };
+    });
 }
 
 int main() {

@@ -72,7 +72,6 @@ private:
 
 map<string, Schedule> weekSchedule;
 
-
 void initializeWeekSchedule() {
     weekSchedule["Monday"] = Schedule({
         Lesson(1, "Mathematics", "Dr. Smith", "Lecture"),

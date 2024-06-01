@@ -110,12 +110,102 @@ void initializeWeekSchedule() {
 }
 
 void printAllSchedule() {
-    vector<string> days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
+    const vector<string> days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
     for (const auto& day : days) {
         cout << day << ":" << endl;
         weekSchedule[day].print();
     }
 }
+
+void displayMenu() {
+    cout << "1. Display Weekly Schedule\n"
+         << "2. Add a Lesson\n"
+         << "3. Remove a Lesson\n"
+         << "4. Exit\n"
+         << "Select an option: ";
+}
+
+bool isValidDay(const string& day) {
+    return weekSchedule.find(day) != weekSchedule.end();
+}
+
+void handleAddLesson() {
+    string day;
+    int number, duration;
+    string subject, teacher, form, room;
+
+    cout << "Enter day: ";
+    cin >> day;
+    if (!isValidDay(day)) {
+        cout << "Invalid day entered. Please try again." << endl;
+        return;
+    }
+
+    cout << "Enter lesson number: ";
+    cin >> number;
+    cout << "Enter subject: ";
+    cin.ignore();
+    getline(cin, subject);
+    cout << "Enter teacher: ";
+    getline(cin, teacher);
+    cout << "Enter form: ";
+    getline(cin, form);
+    cout << "Is it a specialized lesson? (y/n): ";
+    char isSpecialized;
+    cin >> isSpecialized;
+    cin.ignore(); 
+    if (isSpecialized == 'y') {
+        cout << "Enter room: ";
+        cin.ignore();
+        getline(cin, room);
+        cout << "Enter duration (in minutes): ";
+        cin >> duration;
+        weekSchedule[day].addLesson(SpecializedLesson(number, subject, teacher, form, room, duration));
+    } else {
+        weekSchedule[day].addLesson(Lesson(number, subject, teacher, form));
+    }
+}
+
+void handleRemoveLesson() {
+    string day;
+    int number;
+
+    cout << "Enter day: ";
+    cin >> day;
+    if (!isValidDay(day)) {
+        cout << "Invalid day entered. Please try again." << endl;
+        return;
+    }
+
+    cout << "Enter lesson number to remove: ";
+    cin >> number;
+    weekSchedule[day].removeLesson(number);
+}
+
+void handleMenuOption() {
+    int option;
+    cin >> option;
+
+    switch (option) {
+    case 1:
+        printAllSchedule();
+        break;
+    case 2:
+        handleAddLesson();
+        break;
+    case 3:
+        handleRemoveLesson();
+        break;
+    case 4:
+        cout << "Exiting program." << endl;
+        exit(0);
+    default:
+        cout << "Unknown option." << endl;
+        break;
+    }
+}
+
+
 
 int main() {
     initializeWeekSchedule();
@@ -128,5 +218,11 @@ int main() {
 
     cout << endl << "Updated Weekly Schedule:" << endl;
     printAllSchedule();
+
+    while (true) {
+        displayMenu();
+        handleMenuOption();
+    }
+
     return 0;
 }

@@ -4,7 +4,7 @@
 #include <iostream>
 #include <cmath>
 
-// Базовий клас Point
+// Base class Point
 class Point {
 protected:
     double x, y;
@@ -28,22 +28,27 @@ public:
     virtual void draw() const = 0;
 };
 
-// Клас Circle, похідний від Point
-class Circle : public Point {
+// Derived class Hexagon from Point
+class Hexagon : public Point {
 private:
-    double radius;
+    double side_length;
+    std::string color;
 public:
-    Circle(double x, double y, double radius) : Point(x, y), radius(radius) {}
+    Hexagon(double x, double y, double side_length, std::string color)
+        : Point(x, y), side_length(side_length), color(color) {}
 
     void resize(double factor) override {
-        radius *= factor;
+        side_length *= factor;
     }
 
     void draw() const override {
-        std::cout << "Drawing circle at (" << x << ", " << y << ") with radius " << radius << std::endl;
+        std::cout << "Drawing hexagon at (" << x << ", " << y << ") with side length " 
+                  << side_length << " and color " << color << std::endl;
+    }
+
+    void change_color(const std::string& new_color) {
+        color = new_color;
     }
 };
-
-// Додаткові класи можуть бути додані аналогічно
 
 #endif

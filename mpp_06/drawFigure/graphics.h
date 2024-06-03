@@ -3,8 +3,10 @@
 
 #include <iostream>
 #include <cmath>
+#include <string>
 
-// Base class Point
+using namespace std;
+
 class Point {
 protected:
     double x, y;
@@ -28,13 +30,12 @@ public:
     virtual void draw() const = 0;
 };
 
-// Derived class Hexagon from Point
 class Hexagon : public Point {
 private:
     double side_length;
-    std::string color;
+    string color;
 public:
-    Hexagon(double x, double y, double side_length, std::string color)
+    Hexagon(double x, double y, double side_length, string color)
         : Point(x, y), side_length(side_length), color(color) {}
 
     void resize(double factor) override {
@@ -42,11 +43,11 @@ public:
     }
 
     void draw() const override {
-        std::cout << "Drawing hexagon at (" << x << ", " << y << ") with side length " 
-                  << side_length << " and color " << color << std::endl;
+        cout << "Drawing hexagon at (" << x << ", " << y << ") with side length " 
+             << side_length << " and color " << color << endl;
     }
 
-    void change_color(const std::string& new_color) {
+    void change_color(const string& new_color) {
         color = new_color;
     }
 };

@@ -1,6 +1,7 @@
 import os
 from openai import OpenAI
 from dotenv import load_dotenv
+import sys
 
 load_dotenv()
 
@@ -21,6 +22,11 @@ def generate_mixture_result(substance1, substance2):
 
     return result
 
+if __name__ == "__main__":
+    substance1 = sys.argv[1]
+    substance2 = sys.argv[2]
+    print(generate_mixture_result(substance1, substance2))
+
 # Створюємо список для зберігання результатів змішування
 mixture_results = []
 
@@ -28,7 +34,7 @@ mixture_results = []
 mixture_results.append(generate_mixture_result("яблуко", "вода"))
 mixture_results.append(generate_mixture_result("вода", "борошно))"))
 mixture_results.append(generate_mixture_result("вода", "лимон"))
-mixture_results.append(generate_mixture_result("цукор", "вода"))
+mixture_results.append(generate_mixture_result("sugar", "water"))
 mixture_results.append(generate_mixture_result("молоко", "какао"))
 mixture_results.append(generate_mixture_result("експрессо", "молоко"))
 mixture_results.append(generate_mixture_result("цемент", "вода"))

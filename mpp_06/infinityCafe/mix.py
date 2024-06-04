@@ -10,7 +10,7 @@ client = OpenAI(api_key=api_key)
 
 def generate_mixture_result(substance1, substance2):
     # Формуємо запит до моделі GPT-3.5-turbo-instruct
-    prompt = f"Ти є розумною системою дегустатором, яка знає всі можливі результати змішування речовин.Відповідай лише назвою результуючої суміші.  Що буде, якщо змішати {substance1} і {substance2}, назва результуючої суміші буде:"
+    prompt = f"Ти є розумною системою дегустатором, яка знає всі можливі результати змішування речовин. Відповідай лише назвою результуючої суміші, без додаткових символів, точок і зайвих слів. Що буде, якщо змішати {substance1} і {substance2}, назва результуючої суміші буде:"
 
     response = client.completions.create(model="gpt-3.5-turbo-instruct",
     prompt=prompt,
@@ -25,7 +25,8 @@ def generate_mixture_result(substance1, substance2):
 mixture_results = []
 
 # Змішуємо різні речовини і додаємо результати до списку
-mixture_results.append(generate_mixture_result("молоко", "кава"))
+mixture_results.append(generate_mixture_result("яблуко", "вода"))
+mixture_results.append(generate_mixture_result("вода", "борошно))"))
 mixture_results.append(generate_mixture_result("вода", "лимон"))
 mixture_results.append(generate_mixture_result("цукор", "вода"))
 mixture_results.append(generate_mixture_result("молоко", "какао"))

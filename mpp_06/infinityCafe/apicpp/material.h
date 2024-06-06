@@ -52,7 +52,7 @@ public:
     }
 
     void pourInto(MaterialTank &targetTank, double transferVolume) {
-        if (transferVolume > getAvailableVolume()) {
+        if (transferVolume > getUsedVolume()) {
             cout << "Not enough material in the source tank to pour." << endl;
             return;
         }
@@ -61,28 +61,36 @@ public:
             return;
         }
 
+        double remainingTransferVolume = transferVolume;
+
         for (Material &material : materials) {
-            if (transferVolume <= 0) break;
+            if (remainingTransferVolume <= 0) {
+                break;
+            }
 
-            double availableVolumeMaterial = material.getCurrentVolumeMaterial();
-            double actualTransferVolume = min(availableVolumeMaterial, transferVolume);
-            transferVolume -= actualTransferVolume;
-            material.setCurrentVolumeMaterial(availableVolumeMaterial - actualTransferVolume);
+            double materialVolume = material.getCurrentVolumeMaterial();
+            double volumeToTransfer = min(materialVolume, remainingTransferVolume);
 
+            // Reduce volume in source tank
+            material.setCurrentVolumeMaterial(materialVolume - volumeToTransfer);
+
+            // Check if the material already exists in the target tank
             bool found = false;
             for (Material &targetMaterial : targetTank.materials) {
                 if (targetMaterial.getName() == material.getName()) {
-                    targetMaterial.setCurrentVolumeMaterial(targetMaterial.getCurrentVolumeMaterial() + actualTransferVolume);
+                    targetMaterial.setCurrentVolumeMaterial(targetMaterial.getCurrentVolumeMaterial() + volumeToTransfer);
                     found = true;
                     break;
                 }
             }
+
+            // If material doesn't exist in the target tank, add it
             if (!found) {
-                targetTank.addMaterial(Material(material.getName(), actualTransferVolume));
+                targetTank.addMaterial(Material(material.getName(), volumeToTransfer));
             }
+
+            remainingTransferVolume -= volumeToTransfer;
         }
-        totalVolumeTank -= transferVolume;
-        targetTank.totalVolumeTank += transferVolume;
     }
 
     double getAvailableVolume() const {
@@ -105,36 +113,36 @@ public:
         }
     }
 
-    void generate_mixture_result() const {
-        for (size_t i = 0; i < materials.size(); ++i) {
-            for (size_t j = i + 1; j < materials.size(); ++j) {
-                string cmd = "python3 mix.py " + materials[i].getName() + " " + materials[j].getName();
-                
-                // Open a pipe to run the command
-                FILE* pipe = popen(cmd.c_str(), "r");
-                if (!pipe) {
-                    cout << "Error: could not open pipe." << endl;
-                    return;
-                }
-                
-                // Read the output from the pipe
-                char buffer[128];
-                string result = "";
-                while (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
-                    result += buffer;
-                }
+    void mixInContainer() {
+        if (materials.size() > 1) {
+            string substance1 = materials[0].getName();
+            string substance2 = materials[1].getName();
+            string cmd = "python3 mix.py " + substance1 + " " + substance2;
 
-                // Close the pipe
-                pclose(pipe);
+            FILE* pipe = popen(cmd.c_str(), "r");
+            if (!pipe) {
+                cout << "Error: could not open pipe." << endl;
+                return;
+            }
 
-                // замінити речовини на результат змішання
-                // видалити речовини, які були в змішувачі
+            string result;
+            char buffer[128];
+            while (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
+                result += buffer;
+            }
 
-                // додати результат змішування
-                cout << result << endl;
-                Material newMaterial(result, getUsedVolume());
-                newMaterial.print();
+            int returnCode = pclose(pipe);
+            if (returnCode != 0) {
+                cout << "Error: command execution failed with return code " << returnCode << endl;
+                return;
+            }
 
+            result.erase(result.find_last_not_of(" \n\r\t") + 1);  // Remove trailing newlines and spaces
+
+            if (!result.empty()) {
+                double currentVolumeMaterial = materials[0].getCurrentVolumeMaterial() + materials[1].getCurrentVolumeMaterial() ;
+                materials.clear();
+                materials.push_back(Material(result, currentVolumeMaterial));
             }
         }
     }

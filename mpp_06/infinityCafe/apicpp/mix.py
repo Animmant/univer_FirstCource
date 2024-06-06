@@ -23,6 +23,9 @@ def generate_mixture_result(substance1, substance2):
     return result
 
 if __name__ == "__main__":
+    if len(sys.argv) < 3:
+        print("Error: Not enough arguments provided.")
+        sys.exit(1)
     substance1 = sys.argv[1]
     substance2 = sys.argv[2]
     print(generate_mixture_result(substance1, substance2))

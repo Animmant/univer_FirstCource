@@ -40,7 +40,7 @@ void handleMenuOption(MaterialTank &tank1, MaterialTank &tank2) {
             break;
         }
         case 4: {
-            tank1.generate_mixture_result();
+            tank1.mixInContainer();
             break;
         }
         case 5:

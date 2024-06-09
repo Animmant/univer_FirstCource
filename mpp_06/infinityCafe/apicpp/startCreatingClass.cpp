@@ -1,4 +1,3 @@
-// main.cpp
 #include "material.h"
 #include <iostream>
 
@@ -10,7 +9,9 @@ void displayMenu() {
          << "3. Display Tank Contents\n"
          << "4. Mix contents in tank\n"
          << "5. Find Material by Name\n"
-         << "6. Exit\n"
+         << "6. Combine Tanks\n"
+         << "7. Add Material to Tank with Mix Option\n"
+         << "8. Exit\n"
          << "Enter choice: ";
 }
 
@@ -43,14 +44,15 @@ void handleMenuOption(MaterialTank &tank1, MaterialTank &tank2) {
             break;
         }
         case 4: {
-            tank1.mixInContainer(); // Mixing contents in tank1
+            tank1.mixInContainer();
             break;
         }
         case 5: {
             string name;
             cout << "Enter material name to search: ";
             cin >> name;
-            Material* material = tank1.findMaterialFromName(name);
+            MaterialTank sumTank = tank1 + tank2;
+            Material* material = sumTank.findMaterialFromName(name);
             if (material) {
                 material->print();
             } else {
@@ -58,7 +60,30 @@ void handleMenuOption(MaterialTank &tank1, MaterialTank &tank2) {
             }
             break;
         }
-        case 6:
+        case 6: {
+            MaterialTank sumTank = tank1 + tank2;
+            cout << "Contents of Tank 1 + Tank 2:" << endl;
+            sumTank.print();
+            break;
+        }
+        case 7: {
+            string name;
+            double volume;
+            char mixOption;
+            cout << "Enter material name and volume to add to tank1: ";
+            cin >> name >> volume;
+            cout << "Mix it? (Y/n): ";
+            cin >> mixOption;
+            Material material(name, volume);
+            tank1 = tank1 + material;
+            if (mixOption == 'Y' || mixOption == 'y') {
+                tank1.mixInContainer();
+            }
+            cout << "Updated contents of Tank 1:" << endl;
+            tank1.print();
+            break;
+        }
+        case 8:
             cout << "Exiting program." << endl;
             exit(0);
         default:
@@ -70,6 +95,7 @@ void handleMenuOption(MaterialTank &tank1, MaterialTank &tank2) {
 int main() {
     MaterialTank tank1(100);
     MaterialTank tank2(50);
+
 
     while (true) {
         displayMenu();

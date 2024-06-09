@@ -44,9 +44,21 @@ protected:
     vector<Material> materials;
 
 public:
+    // parameters of the constructor
     MaterialTank(double totalVolumeTank, vector<Material> materials = {}) {
         this->totalVolumeTank = totalVolumeTank;
         this->materials = materials;
+    }
+
+    // Default constructor
+    MaterialTank() {
+        totalVolumeTank = 200;
+    }
+
+    // Copy constructor
+    MaterialTank(const MaterialTank &other) {
+        totalVolumeTank = other.totalVolumeTank;
+        materials = other.materials;
     }
 
     void addMaterial(Material ingredient) {
@@ -155,6 +167,31 @@ public:
             }
         }
     }
+
+    MaterialTank operator+(const MaterialTank &other) const {
+        MaterialTank newTank(this->totalVolumeTank + other.totalVolumeTank);
+        for (const Material &material : this->materials) {
+            newTank.addMaterial(material);
+        }
+        for (const Material &material : other.materials) {
+            newTank = newTank + material;
+        }
+        return newTank;
+    }
+
+    // Перевантаження оператора + для додавання матеріалу до бака
+    MaterialTank operator+(const Material &material) const {
+        MaterialTank newTank = *this;
+        Material* existingMaterial = newTank.findMaterialFromName(material.getName());
+        if (existingMaterial) {
+            existingMaterial->setCurrentVolumeMaterial(existingMaterial->getCurrentVolumeMaterial() + material.getCurrentVolumeMaterial());
+        } else {
+            newTank.addMaterial(material);
+        }
+        return newTank;
+    }
+
+    
 };
 
 #endif

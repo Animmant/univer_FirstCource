@@ -104,6 +104,8 @@
     "limits": "cpp",
     "sstream": "cpp",
     "stdexcept": "cpp",
-    "streambuf": "cpp"
+    "streambuf": "cpp",
+    "forward_list": "cpp",
+    "list": "cpp"
   }
 }

@@ -1,3 +1,4 @@
+// main.cpp
 #include "material.h"
 #include <iostream>
 
@@ -5,10 +6,11 @@ using namespace std;
 
 void displayMenu() {
     cout << "1. Add Material to Tank\n"
-         << "2. Pour Material Between Tanks\n"
+         << "2. Pour Material to Tanks\n"
          << "3. Display Tank Contents\n"
-         << "4. mix contents\n"
-         << "5. Exit\n"
+         << "4. Mix contents in tank\n"
+         << "5. Find Material by Name\n"
+         << "6. Exit\n"
          << "Enter choice: ";
 }
 
@@ -26,10 +28,11 @@ void handleMenuOption(MaterialTank &tank1, MaterialTank &tank2) {
             break;
         }
         case 2: {
+            string name;
             double transferVolume;
-            cout << "Enter volume to pour from Tank 1 to Tank 2: ";
-            cin >> transferVolume;
-            tank1.pourInto(tank2, transferVolume);
+            cout << "Enter material name and volume to pour from tank1 to tank2: ";
+            cin >> name >> transferVolume;
+            tank1.materialPourInto(tank2, name, transferVolume);
             break;
         }
         case 3: {
@@ -40,10 +43,22 @@ void handleMenuOption(MaterialTank &tank1, MaterialTank &tank2) {
             break;
         }
         case 4: {
-            tank1.mixInContainer();
+            tank1.mixInContainer(); // Mixing contents in tank1
             break;
         }
-        case 5:
+        case 5: {
+            string name;
+            cout << "Enter material name to search: ";
+            cin >> name;
+            Material* material = tank1.findMaterialFromName(name);
+            if (material) {
+                material->print();
+            } else {
+                cout << "Material not found in Tank 1." << endl;
+            }
+            break;
+        }
+        case 6:
             cout << "Exiting program." << endl;
             exit(0);
         default:

@@ -6,6 +6,7 @@
 #include <string>
 #include <cstdlib>
 #include <cstdio>
+#include <algorithm>  // Include this header for remove_if
 
 using namespace std;
 
@@ -38,6 +39,7 @@ public:
 };
 
 class MaterialTank {
+protected:
     double totalVolumeTank;
     vector<Material> materials;
 
@@ -51,8 +53,30 @@ public:
         materials.push_back(ingredient);
     }
 
-    void pourInto(MaterialTank &targetTank, double transferVolume) {
-        if (transferVolume > getUsedVolume()) {
+    Material* findMaterialFromName(const string &name) {
+        for (Material &material : materials) {
+            if (material.getName() == name) {
+                return &material;
+            }
+        }
+        return nullptr;
+    }
+
+     // Remove material from source tank if its volume is zero
+    void validateAndRemoveZeroVolumeMaterials() {
+        materials.erase(
+            remove_if(materials.begin(), materials.end(), [](const Material &m) { return m.getCurrentVolumeMaterial() == 0; }),
+            materials.end()
+        );
+    }
+
+    void materialPourInto(MaterialTank &targetTank, const string &nameMaterial, double transferVolume) {
+        Material* myMaterial = findMaterialFromName(nameMaterial);
+        if (!myMaterial) {
+            cout << "Material not found in the source tank." << endl;
+            return;
+        }
+        if (transferVolume > myMaterial->getCurrentVolumeMaterial()) {
             cout << "Not enough material in the source tank to pour." << endl;
             return;
         }
@@ -61,36 +85,17 @@ public:
             return;
         }
 
-        double remainingTransferVolume = transferVolume;
-
-        for (Material &material : materials) {
-            if (remainingTransferVolume <= 0) {
-                break;
-            }
-
-            double materialVolume = material.getCurrentVolumeMaterial();
-            double volumeToTransfer = min(materialVolume, remainingTransferVolume);
-
-            // Reduce volume in source tank
-            material.setCurrentVolumeMaterial(materialVolume - volumeToTransfer);
-
-            // Check if the material already exists in the target tank
-            bool found = false;
-            for (Material &targetMaterial : targetTank.materials) {
-                if (targetMaterial.getName() == material.getName()) {
-                    targetMaterial.setCurrentVolumeMaterial(targetMaterial.getCurrentVolumeMaterial() + volumeToTransfer);
-                    found = true;
-                    break;
-                }
-            }
-
-            // If material doesn't exist in the target tank, add it
-            if (!found) {
-                targetTank.addMaterial(Material(material.getName(), volumeToTransfer));
-            }
-
-            remainingTransferVolume -= volumeToTransfer;
+        Material* targetMaterial = targetTank.findMaterialFromName(nameMaterial);
+        if (!targetMaterial) {
+            targetTank.addMaterial(Material(nameMaterial, transferVolume));
+        } else {
+            targetMaterial->setCurrentVolumeMaterial(targetMaterial->getCurrentVolumeMaterial() + transferVolume);
         }
+
+        myMaterial->setCurrentVolumeMaterial(myMaterial->getCurrentVolumeMaterial() - transferVolume);
+
+       
+        validateAndRemoveZeroVolumeMaterials();
     }
 
     double getAvailableVolume() const {
@@ -115,9 +120,10 @@ public:
 
     void mixInContainer() {
         if (materials.size() > 1) {
-            string substance1 = materials[0].getName();
-            string substance2 = materials[1].getName();
-            string cmd = "python3 mix.py " + substance1 + " " + substance2;
+            string cmd = "python3 mix.py";
+            for (const auto &material : materials) {
+                cmd += " " + material.getName();
+            }
 
             FILE* pipe = popen(cmd.c_str(), "r");
             if (!pipe) {
@@ -140,7 +146,10 @@ public:
             result.erase(result.find_last_not_of(" \n\r\t") + 1);  // Remove trailing newlines and spaces
 
             if (!result.empty()) {
-                double currentVolumeMaterial = materials[0].getCurrentVolumeMaterial() + materials[1].getCurrentVolumeMaterial() ;
+                double currentVolumeMaterial = 0;
+                for (const auto &material : materials) {
+                    currentVolumeMaterial += material.getCurrentVolumeMaterial();
+                }
                 materials.clear();
                 materials.push_back(Material(result, currentVolumeMaterial));
             }

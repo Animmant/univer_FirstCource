@@ -1,64 +1,51 @@
-#include "material.h"
+#include "graphics.h"
 #include <iostream>
 
 using namespace std;
 
 void displayMenu() {
-    cout << "1. Add Material to Tank\n"
-         << "2. Pour Material Between Tanks\n"
-         << "3. Display Tank Contents\n"
-         << "4. Mix Two Materials\n"
-         << "5. Exit\n"
+    cout << "1. Move\n"
+         << "2. Rotate\n"
+         << "3. Resize\n"
+         << "4. Draw\n"
+         << "5. Change Color\n"
+         << "6. Exit\n"
          << "Enter choice: ";
 }
 
-void handleMenuOption(MaterialTank &tank1, MaterialTank &tank2) {
-    int option;
-    cin >> option;
+// Function to handle the menu option
+void handleMenuOption(Hexagon &hexagon) {
+    int choice;
+    cin >> choice;
 
-    switch (option) {
-        case 1: {
-            string name;
-            double volume;
-            cout << "Enter material name and volume: ";
-            cin >> name >> volume;
-            tank1.addMaterial(Material(name, volume));
+    double dx, dy, angle, factor;
+    string color;
+
+    switch (choice) {
+        case 1:
+            cout << "Enter dx, dy: ";
+            cin >> dx >> dy;
+            hexagon.move(dx, dy);
             break;
-        }
-        case 2: {
-            double volume;
-            cout << "Enter volume to pour from Tank 1 to Tank 2: ";
-            cin >> volume;
-            tank1.pourInto(tank2, volume);
+        case 2:
+            cout << "Enter angle: ";
+            cin >> angle;
+            hexagon.rotate(angle);
             break;
-        }
-        case 3: {
-            cout << "Contents of Tank 1:" << endl;
-            tank1.print();
-            cout << "Contents of Tank 2:" << endl;
-            tank2.print();
+        case 3:
+            cout << "Enter resize factor: ";
+            cin >> factor;
+            hexagon.resize(factor);
             break;
-        }
-        case 4: {
-            string name1, name2;
-            double volume1, volume2;
-            cout << "Enter first material name and volume: ";
-            cin >> name1 >> volume1;
-            cout << "Enter second material name and volume: ";
-            cin >> name2 >> volume2;
-
-            Material mat1(name1, volume1);
-            Material mat2(name2, volume2);
-
-            Material newMat = tank1.mix(mat1, mat2);
-
-            cout << "New Material: " << newMat.getName() << endl;
-            cout << "Volume: " << newMat.getVolume() << endl;
-
-            tank1.addMaterial(newMat);
+        case 4:
+            hexagon.draw();
             break;
-        }
         case 5:
+            cout << "Enter new color: ";
+            cin >> color;
+            hexagon.change_color(color);
+            break;
+        case 6:
             cout << "Exiting program." << endl;
             exit(0);
         default:
@@ -68,12 +55,11 @@ void handleMenuOption(MaterialTank &tank1, MaterialTank &tank2) {
 }
 
 int main() {
-    MaterialTank tank1(100);
-    MaterialTank tank2(50);
+    Hexagon h(10, 10, 5, "red");
 
     while (true) {
         displayMenu();
-        handleMenuOption(tank1, tank2);
+        handleMenuOption(h);
     }
 
     return 0;
